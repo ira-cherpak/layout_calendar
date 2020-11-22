@@ -1,3 +1,79 @@
+// variables
+$dayBlockSize: 100px;
+$daysInWeek: 7;
+$gap: 1px;
+$weekDay:
+  "tue" 1,
+  "wed" 2,
+  "thu" 3,
+  "fri" 4,
+  "sat" 5,
+  "sun" 6;
+// end_variables
+
+//reset
 body {
   margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+div {
+  margin: 0;
+}
+// end_reset
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+}
+// calendar_block
+.calendar {
+  width: $dayBlockSize * $daysInWeek + $gap * 10;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+  margin: 20vh auto;
+}
+
+.calendar div:nth-child(n) {
+  position: relative;
+  width: $dayBlockSize;
+  height: $dayBlockSize;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #eeee;
+  border: 1px solid #000;
+
+  cursor: pointer;
+}
+
+.calendar div:nth-child(n):hover {
+  top: -20px;
+  background-color: #ffc0cb;
+  transition-duration: 0.5s;
+}
+
+@for $i from 1 through 31 {
+  .calendar div:nth-child(#{$i})::after {
+    content: "#{$i}";
+  }
+}
+
+@for $monthDays from 28 through 31 {
+  .calendar-#{$monthDays} div:nth-child(n + #{$monthDays+1}) {
+    display: none;
+  }
+}
+
+@each $day, $i in $weekDay {
+  .calendar-#{$day} div:nth-child(1) {
+    margin-left: ($dayBlockSize + $gap) * $i;
+  }
 }
